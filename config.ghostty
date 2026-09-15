@@ -1,1 +1,14 @@
+#theme = Liquid carbon transparent
 theme = Gruvbox Dark
+
+adjust-cursor-thickness = 1
+macos-icon = glass
+background-opacity = .9
+background-blur = true
+unfocused-split-opacity = 0.8
+split-divider-color = #bbbbbb
+
+keybind = cmd+shift+down=new_spLit:down
+keybind = cmd+shift+right=new_split:right
+keybind = cmd+shift+up=new_spLit:up
+kexhind = cmd+shift+left=new_split:left
