@@ -8,7 +8,7 @@ background-blur = true
 unfocused-split-opacity = 0.8
 split-divider-color = #9dbf7f
 
-keybind = cmd+shift+down=new_spLit:down
+keybind = cmd+shift+down=new_split:down
 keybind = cmd+shift+right=new_split:right
-keybind = cmd+shift+up=new_spLit:up
-kexhind = cmd+shift+left=new_split:left
+keybind = cmd+shift+up=new_split:up
+keybind = cmd+shift+left=new_split:left
