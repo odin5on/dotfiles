@@ -1,28 +1,27 @@
-{
+  {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "blocks": [
     {
       "type": "prompt",
       "alignment": "left",
-      "leading_diamond": "\ue0b6",
-      "trailing_diamond": "\ue0b4",
       "segments": [
         {
           "type": "session",
           "style": "diamond",
-          "template": "@{{ .UserName }}",
+          "template": "@{{ .UserName }} ",
           "foreground": "#A3BE8C",
-          "background": "#353B45",
+          "background": "#3A404B",
           "properties": {
             "cache_duration": "none"
-          }
+          },
+          "leading_diamond": "<#3A404B,transparent></>"
         },
         {
           "type": "path",
           "style": "diamond",
-          "template": " \uf07c {{ .Path }}",
+          "template": " {{ .Path }}{{ if .Segments.Contains \"Git\" }} {{ else }}<#3A404B,transparent></><#56B6C2,transparent> </>{{ end }}",
           "foreground": "#56B6C2",
-          "background": "#353B45",
+          "background": "#3A404B",
           "properties": {
             "cache_duration": "none",
             "home_icon": "~",
@@ -32,29 +31,29 @@
         {
           "type": "git",
           "style": "diamond",
-          "template": " \uf418 {{ .HEAD }}",
+          "template": " {{ .HEAD }}",
           "foreground": "#FFE082",
-          "background": "#353B45",
+          "background": "#3A404B",
           "properties": {
             "branch_icon": "",
             "cache_duration": "none"
-          }
+          },
+          "alias": "Git",
+          "trailing_diamond": "<#3A404B,transparent></> "
         }
       ]
     },
     {
       "type": "prompt",
       "alignment": "right",
-      "overflow": "hide",
+      "overflow": "break",
       "segments": [
         {
           "type": "status",
-          "style": "diamond",
-          "leading_diamond": "\ue0b6",
-          "trailing_diamond": "\ue0b4 ",
-          "template": "\uf00d exit {{ .Code }}",
+          "style": "plain",
+          "template": "{{ if .Code }} <#3A404B,transparent></><#FF5C57,#3A404B> exit {{ .Code }}</><#3A404B,transparent></>{{ end }}",
           "foreground": "#FF5C57",
-          "background": "#353B45",
+          "background": "transparent",
           "properties": {
             "always_enabled": false,
             "cache_duration": "none"
@@ -62,32 +61,33 @@
         },
         {
           "type": "git",
-          "style": "diamond",
-          "leading_diamond": "\ue0b6",
-          "trailing_diamond": "\ue0b4 ",
-          "template": "{{ if .Working.Changed }}\uf044 unstaged: {{ .Working.String | trim }}{{ end }}{{ if and .Working.Changed .Staging.Changed }} | {{ end }}{{ if .Staging.Changed }}\uf046 staged: {{ .Staging.String | trim }}{{ end }}{{ if not (or .Working.Changed .Staging.Changed) }}\uf00c clean{{ end }}",
-          "foreground": "#7FD5EA",
-          "background": "#353B45",
+          "style": "plain",
+          "template": "{{ if or .Ahead .Behind (and .Upstream .UpstreamGone) }} <#3A404B,transparent></><#FFE082,#3A404B>{{ if .Ahead }} {{ .Ahead }}{{ end }}{{ if and .Ahead .Behind }} {{ end }}{{ if .Behind }} {{ .Behind }}{{ end }}{{ if and .Upstream .UpstreamGone }}{{ end }}</><#3A404B,transparent></>{{ end }}",
+          "foreground": "#FFE082",
+          "background": "transparent",
+          "properties": {
+            "cache_duration": "none",
+            "fetch_status": true
+          }
+        },
+        {
+          "type": "git",
+          "style": "plain",
+          "template": "{{ if or .Working.Changed .Staging.Changed }} <#3A404B,transparent></><#FFE082,#3A404B> {{ add .Working.Added .Working.Modified .Working.Deleted .Working.Unmerged .Working.Untracked }} |  {{ add .Staging.Added .Staging.Modified .Staging.Deleted .Staging.Unmerged .Staging.Untracked }}</><#3A404B,transparent></>{{ end }}",
+          "foreground": "#FFE082",
+          "background": "transparent",
           "properties": {
             "branch_icon": "",
             "cache_duration": "none",
-            "status_formats": {
-              "Added": "\uf067 %d added ",
-              "Modified": "\uf044 %d modified ",
-              "Deleted": "\uf1f8 %d deleted ",
-              "Untracked": "\uf128 %d untracked ",
-              "Unmerged": "\ue727 %d conflicted "
-            }
+            "fetch_status": true
           }
         },
         {
           "type": "executiontime",
-          "style": "diamond",
-          "leading_diamond": "\ue0b6",
-          "trailing_diamond": "\ue0b4 ",
-          "template": "󰔛 {{ .FormattedMs }}",
-          "foreground": "#FFE082",
-          "background": "#353B45",
+          "style": "plain",
+          "template": " <#3A404B,transparent></><#A3BE8C,#3A404B>{{ .FormattedMs }}</><#3A404B,transparent></>",
+          "foreground": "#A3BE8C",
+          "background": "transparent",
           "properties": {
             "always_enabled": true,
             "cache_duration": "none",
@@ -97,30 +97,17 @@
         },
         {
           "type": "time",
-          "style": "diamond",
-          "leading_diamond": "\ue0b6",
-          "trailing_diamond": "\ue0b4 ",
-          "template": "\uf017 {{ .CurrentDate | date .Format }}",
-          "foreground": "#FFAB91",
-          "background": "#353B45",
+          "style": "plain",
+          "template": " <#3A404B,transparent></><#A3BE8C,#3A404B>{{ .CurrentDate | date .Format }}</><#3A404B,transparent></>",
+          "foreground": "#A3BE8C",
+          "background": "transparent",
           "properties": {
             "cache_duration": "none",
             "time_format": "15:04:05"
           }
-        },
-        {
-          "type": "git",
-          "style": "diamond",
-          "leading_diamond": "\ue0b6",
-          "trailing_diamond": "\ue0b4",
-          "template": "{{ if or .Ahead .Behind .UpstreamGone }}{{ if .Ahead }}\uf062 {{ .Ahead }} ahead{{ end }}{{ if and .Ahead .Behind }} | {{ end }}{{ if .Behind }}\uf063 {{ .Behind }} behind{{ end }}{{ if .UpstreamGone }}\uf071 upstream gone{{ end }}{{ end }}",
-          "foreground": "#FFE082",
-          "background": "#353B45",
-          "properties": {
-            "cache_duration": "none"
-          }
         }
-      ]
+      ],
+      "filler": "<#56B6C2>─</>"
     },
     {
       "type": "prompt",
@@ -130,18 +117,21 @@
         {
           "type": "status",
           "style": "plain",
-          "template": "❯_",
+          "template": "<#56B6C2>╰─</><#FFE082>❯</> ",
+          "template": "<FFE082>❯_</> ",
           "foreground": "#FFE082",
           "properties": {
             "always_enabled": true,
             "cache_duration": "none"
-          }
+          },
+          "background": "transparent",
+          "force": true
         }
       ]
     }
   ],
   "version": 3,
-  "final_space": true,
+  "final_space": false,
   "set_title": true,
   "console_title_template": "{{ .Folder }}"
 }
